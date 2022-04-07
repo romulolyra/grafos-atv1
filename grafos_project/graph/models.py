@@ -4,7 +4,6 @@ from django.db import models
 
 class Vertex(models.Model):
 	label = models.CharField(max_length=30, unique=True)
-	is_directed = models.BooleanField()
 
 class Edge(models.Model):
 	origin = models.ForeignKey(Vertex, on_delete=models.CASCADE, related_name='orig')
