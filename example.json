@@ -1,5 +1,5 @@
 {
-  "nodes": [
+  "vertices": [
     "ser1",
     "ser2",
     "ser3",
@@ -10,7 +10,7 @@
     "ser8",
     "ser9"
   ],
-  "links": [
+  "edges": [
     [
       "ser1",
       "ser3",

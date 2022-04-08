@@ -15,8 +15,12 @@ class GraphForm(forms.ModelForm):
 		model = Graph
 		fields = ("is_directed", "name",)
 class GraphInputForm(forms.Form):
+	is_directed =forms.BooleanField(label='É direcionado ? :')
+	name_input = forms.CharField(label ='Nome ? :',max_length=300)
 	vertices_input = forms.CharField(label='Vertices :', max_length=800)
 	edges_input = forms.CharField(label='Arestas :', max_length=2800)
+
+
 
 class UploadFileForm(forms.Form):
     title = forms.CharField(max_length=50)

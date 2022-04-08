@@ -9,23 +9,6 @@ def plot_graph(request):
 	vertices = Vertex.objects.all()
 	return render(request,'graph/display_graph.html',{'vertices' : vertices})
 
-""" def graph_new(request):
-
-	if request.method == "POST":
-		vertex_form = VertexForm(request.POST)
-		edge_form = EdgeForm(request.POST)
-		graph_form = GraphForm(request.POST)
-		if form.is_valid():
-			vertice = form.save(commit=False)
-			vertice.save()
-			return redirect('plot_graph', pk=vertice.pk)
-	else:
-		vertex_form = VertexForm()
-		edge_form = EdgeForm()
-		graph_form = GraphForm()
-	return render(request, 'graph/graph_edit.html', {'vertex_form': vertex_form,
-							'edge_form' : edge_form,
-							 'graph_form' : graph_form}) """
 def graph_new(request):
 
 	if request.method == "POST":
@@ -34,8 +17,9 @@ def graph_new(request):
 		if graph_form.is_valid():
 			vertices_input = graph_form.cleaned_data['vertices_input']
 			edges_input = graph_form.cleaned_data['edges_input']
-			print(vertices_input)
-			print(edges_input)
+			is_directed = graph_form.cleaned_data['is_directed']
+			name_input = graph_form.cleaned_data['name_input']
+			get_input_vertices(vertices_input, edges_input)
 			return redirect('plot_graph')
 		else:
 			print("Deu ruim")
@@ -45,4 +29,22 @@ def graph_new(request):
 	return render(request, 'graph/graph_edit.html', {'graph_form' : graph_form})
 
 
+def get_input_vertices(vertices, edges):
+	vert = {'vertices': vertices.split(',')}
+	arest = edges.split(',')
 
+	edge_list = []
+	for edge in arest:
+		aux_list = []
+		origem, destino_peso = edge.split('->')
+		destino,peso = destino_peso.split()
+		aux_list.append(origem)
+		aux_list.append(destino)
+		aux_list.append(int(peso))
+
+		edge_list.append(aux_list)
+		
+	edg = {'edges': edge_list}
+
+	print(vert)
+	print(edg)
