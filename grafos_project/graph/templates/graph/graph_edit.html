@@ -1,7 +1,19 @@
 {% block content %}
     <h2>New graph</h2>
     <form method="POST" class="post-form">{% csrf_token %}
-        {{ form.as_p }}
+{% comment %}         <h2>Sobre o grafo:</h2>
+        {{ graph_form.as_p }}
+        <h2>Sobre o vertice:(receber lista)</h2>
+        {{ vertex_form.as_p }}
+        <h2>Sobre o nós:(receber lista no formato origem -> destino)</h2>
+        {{ edge_form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button> {% endcomment %}
+
+        <label for="vertices_input">Vertices: </label>
+            <input id="vertices_input" type="text" name="vertices_input"  required>
+            <br>
+        <label for="edges_input">Arestas: </label>
+            <input id="edges_input" type="text" name="edges_input"  required>
         <button type="submit" class="save btn btn-default">Save</button>
     </form>
 {% endblock %}
