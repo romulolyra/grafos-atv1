@@ -17,7 +17,7 @@ def count_edges(graph):
 
 ##SABER SE CONSIDERA node_a OU node_b VIZINHO DELE MESMO OU NAO
 def is_adj(node_a, node_b, graph):
-	for edge in graph['links']:
+	for edge in graph['edges']:
 		if (edge[0] == node_a and edge[1] == node_b):
 			return True
 		elif (edge[0] == node_b and edge[1] == node_a):
@@ -28,7 +28,7 @@ def is_adj(node_a, node_b, graph):
 ##DEVE SERVIR PARA GRAFOS NAO DIRECIONADOS, SERIA APENAS IGNORAR ESSA SEPARACAO
 def list_adj(node_a, graph):
 	adjs = {'in': [], 'out': [], 'loop': False}
-	for edge in graph['links']:
+	for edge in graph['edges']:
 		if (edge[0] == node_a and edge[1] == node_a):
 			adjs['loop'] = True
 		elif (edge[0] == node_a):
@@ -37,18 +37,19 @@ def list_adj(node_a, graph):
 			adjs['in'].append(edge[0])
 	return adjs
 
-with open('example.json') as file:
-	graph = json.load(file)
+def calculate(file_name):
+	with open(file_name) as file:
+		graph = json.load(file)
 
-	num_nodes = count_nodes(graph['nodes'])
-	
-	num_edges = count_edges(graph['links'])
+		num_nodes = count_nodes(graph['vertices'])
+		
+		num_edges = count_edges(graph['edges'])
 
-	vizinho = is_adj('ser1', 'ser2', graph)
+		vizinho = is_adj('ser1', 'ser2', graph)
 
-	lista_adj = list_adj('ser2', graph)
+		lista_adj = list_adj('ser2', graph)
 
-	print("A lista de adjacentes do node ser2 eh: ", lista_adj)
-	print("Os nodes ser1 e ser3 sao vizinhos: ", vizinho)
-	print("Numero de Nodes neste grafo eh de: ", num_nodes)
-	print("Numero de Arestas neste grafo eh de: ", num_edges)
+		#print("A lista de adjacentes do node ser2 eh: ", lista_adj)
+		#print("Os nodes ser1 e ser3 sao vizinhos: ", vizinho)
+		print("Numero de Nodes neste grafo eh de: ", num_nodes)
+		print("Numero de Arestas neste grafo eh de: ", num_edges)
