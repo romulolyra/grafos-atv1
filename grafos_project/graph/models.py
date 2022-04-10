@@ -4,7 +4,8 @@ from django.db import models
 
 class Graph(models.Model):
 
-	is_directed =models.BooleanField(default=False)
+	is_directed = models.BooleanField(default=False)
+	is_valorado = models.BooleanField(default=False)
 	name = models.CharField(max_length=30, unique=True)
 
 	

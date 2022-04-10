@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 import json
 from .models import Vertex, Edge
@@ -8,9 +9,10 @@ from .forms import *
 from .main import calculate
 
 
-def plot_graph(request):
-	vertices = Vertex.objects.all()
-	return render(request,'graph/display_graph.html',{'vertices' : vertices})
+def plot_graph(request, graph_json):
+	#graph_json = graph_json
+	#y = json.loads()
+	return render(request,'graph/display_graph.html',context = {'graph_json' : graph_json})
 
 
 def graph_new(request):
@@ -24,16 +26,20 @@ def graph_new(request):
 			is_directed = graph_form.cleaned_data['is_directed']
 			is_valorado = graph_form.cleaned_data['is_valorado']
 			name_input = graph_form.cleaned_data['name_input']
+
 			#TODO = VERFICAR SE GRAFO É VALIDO
 			if(valid_graph()):
 				if(is_directed & is_valorado):
+					#TODO verificar se a função devia retornar um json e se sim aplicar o mesmo pros não direcionados
 					dicti = direcionados_com_peso(vertices_input, edges_input,name_input)
 				else:
 					direcionados_sem_peso(vertices_input, edges_input,name_input)
 
-				
-				#return redirect('plot_graph')
-				return render(request=request, template_name="graph/display_graph.html", context={'graph_form':graph_form, 'dicti':dicti})
+				graph_json = str(name_input+'.json')
+				return plot_graph(request,graph_json)
+				#return redirect(reverse("plot_graph", kwargs={'graph_json':graph_json} ))
+				#return HttpResponseRedirect(reverse(plot_graph, kwargs={'graph_form':graph_form}))
+				#return render(request=request, template_name="graph/display_graph.html", context={'graph_form':graph_form, 'dicti':dicti})
 		else:
 			print("Deu ruim")
 			mensagem_erro = "Erro na inserção de valores"

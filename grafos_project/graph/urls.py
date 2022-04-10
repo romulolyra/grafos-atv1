@@ -5,6 +5,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.graph_new, name='graph_new'),
-    path('graph/new', views.plot_graph, name='plot_graph'),
+    path('graph/<str:file_name>', views.plot_graph, name='plot_graph'),
 ]
 
