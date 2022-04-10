@@ -12,9 +12,6 @@ def count_edges(graph):
 		num_edges += 1
 	return num_edges
 
-## Falta fazer ainda!
-##def short_path(init, end, graph):
-
 ##SABER SE CONSIDERA node_a OU node_b VIZINHO DELE MESMO OU NAO
 def is_adj(node_a, node_b, graph):
 	for edge in graph['links']:
