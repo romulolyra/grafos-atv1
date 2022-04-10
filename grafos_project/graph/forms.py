@@ -15,7 +15,8 @@ class GraphForm(forms.ModelForm):
 		model = Graph
 		fields = ("is_directed", "name",)
 class GraphInputForm(forms.Form):
-	is_directed =forms.BooleanField(label='É direcionado ? :')
+	is_directed =forms.BooleanField(label='É direcionado ? :', initial = False, required = False)
+	is_valorado =forms.BooleanField(label='É direcionado ? :', initial = False,required = False)
 	name_input = forms.CharField(label ='Nome ? :',max_length=300)
 	vertices_input = forms.CharField(label='Vertices :', max_length=800)
 	edges_input = forms.CharField(label='Arestas :', max_length=2800)

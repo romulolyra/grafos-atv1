@@ -6,20 +6,20 @@
 
         <label for="vertices_input">Vertices: </label>
             <input id="vertices_input" type="text" name="vertices_input"  >
-            <br>
+        <br>
         <label for="edges_input">Arestas: </label>
             <input id="edges_input" type="text" name="edges_input"  >
-            <br>
+        <br>
         <label for="name_input">Nome grafo: </label>
             <input id="name_input" type="text" name="name_input"  >
-            <br>
+        <br>
         <label for="is_directed">Grafo direcionado</label>
             <input id="is_directed" type="checkbox" name="is_directed" >
-        <button type="submit" name = 'form-texto'class="save btn btn-default">Save</button>
+        <br>
+        <label for="is_valorado">Grafo valorado</label>
+            <input id="is_valorado" type="checkbox" name="is_valorado" >
+        <br>    
+        <button type="submit" class="save btn btn-default">Save</button>
 
-    </form>
-    <form method="POST" enctype="multipart/form-data">
-        <input  type="file" name="file" >
-        <button type="submit"name = "form-arquivo">Upload</button>
-      </form>       
+    </form>      
 {% endblock %}

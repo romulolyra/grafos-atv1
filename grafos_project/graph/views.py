@@ -12,15 +12,7 @@ def plot_graph(request):
 	vertices = Vertex.objects.all()
 	return render(request,'graph/display_graph.html',{'vertices' : vertices})
 
-def upload_file(request):
-    if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            handle_uploaded_file(request.FILES['file'])
-            return HttpResponseRedirect('/success/url/')
-    else:
-        form = UploadFileForm()
-    return render(request, 'graph_edit.html', {'form': form})
+
 def graph_new(request):
 
 	if request.method == "POST":
@@ -30,19 +22,28 @@ def graph_new(request):
 			vertices_input = graph_form.cleaned_data['vertices_input']
 			edges_input = graph_form.cleaned_data['edges_input']
 			is_directed = graph_form.cleaned_data['is_directed']
+			is_valorado = graph_form.cleaned_data['is_valorado']
 			name_input = graph_form.cleaned_data['name_input']
+			#TODO = VERFICAR SE GRAFO É VALIDO
+			if(valid_graph()):
+				if(is_directed & is_valorado):
+					dicti = direcionados_com_peso(vertices_input, edges_input,name_input)
+				else:
+					direcionados_sem_peso(vertices_input, edges_input,name_input)
 
-			get_input_vertices(vertices_input, edges_input,name_input)
-			return redirect('plot_graph')
+				
+				#return redirect('plot_graph')
+				return render(request=request, template_name="graph/display_graph.html", context={'graph_form':graph_form, 'dicti':dicti})
 		else:
 			print("Deu ruim")
+			mensagem_erro = "Erro na inserção de valores"
+			return render(request=request, template_name="graph/error.html", context={'mensagem_erro':mensagem_erro})
 	else:
 
 		graph_form = GraphInputForm()
 	return render(request, 'graph/graph_edit.html', {'graph_form' : graph_form})
 
-#TO DO : Bug ao receber grafo não direcionado
-def get_input_vertices(vertices, edges, name):
+def direcionados_com_peso(vertices, edges, name):
 	vert = {'vertices': vertices.split(',')}
 	arest = edges.split(',')
 
@@ -66,8 +67,32 @@ def get_input_vertices(vertices, edges, name):
 	with open(name+'.json', 'w') as fp:
 		json.dump(graph_dict, fp)
 	calculate(name+'.json')
+	return(graph_dict)
 
-def handle_uploaded_file(f):
-    with open('name.txt', 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
+
+
+def direcionados_sem_peso(vertices, edges, name):
+	vert = {'vertices': vertices.split(',')}
+	arest = edges.split(',')
+
+	edge_list = []
+	for edge in arest:
+		aux_list = []
+		origem, destino = edge.split('->')
+		aux_list.append(origem)
+		aux_list.append(destino)
+		edge_list.append(aux_list)
+		
+	edg = {'edges': edge_list}
+
+	graph_dict = {}
+	graph_dict.update(vert)
+	graph_dict.update(edg)
+
+	with open(name+'.json', 'w') as fp:
+		json.dump(graph_dict, fp)
+	calculate(name+'.json')
+	#return(graph_dict)
+
+def valid_graph():
+	return True
