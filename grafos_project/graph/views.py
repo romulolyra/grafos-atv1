@@ -6,12 +6,13 @@ from django.urls import reverse
 import json
 from .models import Vertex, Edge
 from .forms import *
-from .main import calculate
+from .graph_manipulation import valid_graph
 
 
 def plot_graph(request, graph_json):
 	#graph_json = graph_json
 	#y = json.loads()
+	
 	return render(request,'graph/display_graph.html',context = {'graph_json' : graph_json})
 
 
@@ -27,19 +28,13 @@ def graph_new(request):
 			is_valorado = graph_form.cleaned_data['is_valorado']
 			name_input = graph_form.cleaned_data['name_input']
 
-			#TODO = VERFICAR SE GRAFO É VALIDO
-			if(valid_graph()):
-				if(is_directed & is_valorado):
-					#TODO verificar se a função devia retornar um json e se sim aplicar o mesmo pros não direcionados
-					dicti = direcionados_com_peso(vertices_input, edges_input,name_input)
-				else:
-					direcionados_sem_peso(vertices_input, edges_input,name_input)
+			
+			graph_json = valid_graph(vertices_input,edges_input,is_directed,is_valorado,name_input)
+			if('.json' not in graph_json):
+				return render(request=request, template_name="graph/error.html", context={'mensagem_erro':graph_json})
 
-				graph_json = str(name_input+'.json')
-				return plot_graph(request,graph_json)
-				#return redirect(reverse("plot_graph", kwargs={'graph_json':graph_json} ))
-				#return HttpResponseRedirect(reverse(plot_graph, kwargs={'graph_form':graph_form}))
-				#return render(request=request, template_name="graph/display_graph.html", context={'graph_form':graph_form, 'dicti':dicti})
+			return plot_graph(request,graph_json)
+
 		else:
 			print("Deu ruim")
 			mensagem_erro = "Erro na inserção de valores"
@@ -49,56 +44,5 @@ def graph_new(request):
 		graph_form = GraphInputForm()
 	return render(request, 'graph/graph_edit.html', {'graph_form' : graph_form})
 
-def direcionados_com_peso(vertices, edges, name):
-	vert = {'vertices': vertices.split(',')}
-	arest = edges.split(',')
-
-	edge_list = []
-	for edge in arest:
-		aux_list = []
-		origem, destino_peso = edge.split('->')
-		destino,peso = destino_peso.split()
-		aux_list.append(origem)
-		aux_list.append(destino)
-		aux_list.append(int(peso))
-
-		edge_list.append(aux_list)
-		
-	edg = {'edges': edge_list}
-
-	graph_dict = {}
-	graph_dict.update(vert)
-	graph_dict.update(edg)
-
-	with open(name+'.json', 'w') as fp:
-		json.dump(graph_dict, fp)
-	calculate(name+'.json')
-	return(graph_dict)
 
 
-
-def direcionados_sem_peso(vertices, edges, name):
-	vert = {'vertices': vertices.split(',')}
-	arest = edges.split(',')
-
-	edge_list = []
-	for edge in arest:
-		aux_list = []
-		origem, destino = edge.split('->')
-		aux_list.append(origem)
-		aux_list.append(destino)
-		edge_list.append(aux_list)
-		
-	edg = {'edges': edge_list}
-
-	graph_dict = {}
-	graph_dict.update(vert)
-	graph_dict.update(edg)
-
-	with open(name+'.json', 'w') as fp:
-		json.dump(graph_dict, fp)
-	calculate(name+'.json')
-	#return(graph_dict)
-
-def valid_graph():
-	return True
