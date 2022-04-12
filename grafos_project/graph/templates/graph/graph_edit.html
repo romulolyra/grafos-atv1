@@ -1,24 +1,36 @@
 {% block content %}
-    <h2>New graph</h2>
+    <h2>Faça seu Grafo</h2>
     <form method="POST" class="post-form",enctype="multipart/form-data">
         {% csrf_token %}
 
-
+        <p>Coloque todos os vertices que deseja
+            <br>Exemplo de entrada: v4, v5, v6 OU batata, abacaxi, limão</p>
         <label for="vertices_input">Vertices: </label>
             <input id="vertices_input" type="text" name="vertices_input"  >
         <br>
+
+
+        <p>Coloque a lista de todas as arestas desejadas
+            <br>Exemplo de entrada: v4->v5 7, v6->v8 2
+            <br>mostrando seu caminho v4->v5 e depois o seu peso 7 e uma virgula , antes de por a proxima aresta desejada
+            <br>Caso não deseje peso somente v4->v5 e uma virgula ,
+        </p>
         <label for="edges_input">Arestas: </label>
             <input id="edges_input" type="text" name="edges_input"  >
+        <br>
         <br>
         <label for="name_input">Nome grafo: </label>
             <input id="name_input" type="text" name="name_input"  >
         <br>
+        <br>
         <label for="is_directed">Grafo direcionado</label>
             <input id="is_directed" type="checkbox" name="is_directed" >
         <br>
+        <br>
         <label for="is_valorado">Grafo valorado</label>
             <input id="is_valorado" type="checkbox" name="is_valorado" >
-        <br>    
+        <br>   
+        <br> 
         <button type="submit" class="save btn btn-default">Save</button>
 
     </form>      
