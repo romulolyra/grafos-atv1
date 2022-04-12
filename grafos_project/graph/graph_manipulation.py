@@ -44,6 +44,7 @@ def direcionados_com_peso(vertices, edges, name):
 	graph_dict.update(vert)
 	graph_dict.update(edg)
 	file_name = name.strip()+'.json'
+	print(file_name)
 	with open(file_name, 'w') as fp:
 		json.dump(graph_dict, fp)
 	return(file_name)

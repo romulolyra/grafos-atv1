@@ -23,8 +23,11 @@ class GraphInputForm(forms.Form):
 
 
 
-class UploadFileForm(forms.Form):
-    title = forms.CharField(max_length=50)
-    file = forms.FileField()
+class Two_verticesForm(forms.Form):
+	CHOICES = (
+	(11, 'Descobrir se os grafos são adjacentes'),
+	(12, 'Descobrir o menor caminho'),)
+	operation = forms.ChoiceField(choices=CHOICES,label='Qual a operação desejada ? :')
+	origin_vertex = forms.CharField(label='Vertice 1 :', max_length=50)
+	destiny_vertex = forms.CharField(label='Vertice 2 :', max_length=50)
 
-    

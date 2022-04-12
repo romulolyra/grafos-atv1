@@ -1,1 +1,1 @@
-initial = False
+l = get_vertices_list('www.json')

@@ -1,0 +1,22 @@
+<html>
+<body>
+	<h3>{{messages}}</h3><br>
+    <h2>Operações</h2>
+		<h4>Com 2 vértices : </h4>
+	<label for="origin_vertex">Vertice 1: </label>
+	<input id="origin_vertex" type="text" name="origin_vertex"  >
+	    <br>
+	<label for="destiny_vertex">Vertice 2: </label>
+	<input id="destiny_vertex" type="text" name="destiny_vertex"  >
+		<br>
+		<label for="cars">Choose a car:</label>
+
+	<select name="operation" id="operation">
+		<option value='Descobrir se os grafos são adjacentes'>Descobrir se os grafos são adjacentes</option>
+		<option value='Descobrir o menor caminho'>'Descobrir o menor caminho</option>
+	</select>
+	<br>
+
+    <a href="{% url 'graph_new' %}" >Link</a>
+</body>
+</html>

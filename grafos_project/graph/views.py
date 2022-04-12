@@ -7,6 +7,33 @@ import json
 from .models import Vertex, Edge
 from .forms import *
 from .graph_manipulation import valid_graph
+from .main import calculate
+
+def more_inputs(request, graph_json):
+	#graph_json = graph_json
+	#y = json.loads()
+	messages = calculate(graph_json)
+
+	if request.method == "POST":
+
+		edges2_form = Two_verticesForm(request.POST)
+		if edges2_form.is_valid():
+			destiny_vertex = edges2_form.cleaned_data['destiny_vertex']
+			origin_vertex = edges2_form.cleaned_data['origin_vertex']
+			origin_vertex = edges2_form.cleaned_data['operations']
+
+
+			
+			graph_json = valid_graph(vertices_input,edges_input,is_directed,is_valorado,name_input)
+			if('.json' not in graph_json):
+				return render(request=request, template_name="graph/error.html", context={'mensagem_erro':graph_json})
+
+			return plot_graph(request,graph_json)
+
+
+	else:
+		form = Two_verticesForm()
+		return render(request,'graph/aditional_input.html',context = {'messages' : messages,'form' : form})
 
 
 def plot_graph(request, graph_json):
@@ -38,11 +65,12 @@ def graph_new(request):
 		else:
 			print("Deu ruim")
 			mensagem_erro = "Erro na inserção de valores"
-			return render(request=request, template_name="graph/error.html", context={'mensagem_erro':mensagem_erro})
+			return render(request=GET, template_name="graph/error.html", context={'mensagem_erro':mensagem_erro})
 	else:
 
 		graph_form = GraphInputForm()
 	return render(request, 'graph/graph_edit.html', {'graph_form' : graph_form})
 
 
-
+def retorna_vertices(arquivo):
+    return arquivo['vertices']
