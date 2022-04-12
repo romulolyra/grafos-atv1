@@ -1,12 +1,18 @@
 {% block content %}
-    <h2>New graph</h2>
-    <form method="POST" class="post-form",enctype="multipart/form-data">
+<h2>Faça seu Grafo</h2>
+<form method="POST" class="post-form",enctype="multipart/form-data">
         {% csrf_token %}
 
-
+        <p>Coloque todos os vertices que deseja
+            <br>Exemplo de entrada: v4, v5, v6 OU batata, abacaxi, limão</p>
         <label for="vertices_input">Vertices: </label>
             <input id="vertices_input" type="text" name="vertices_input"  >
         <br>
+        <p>Coloque a lista de todas as arestas desejadas
+            <br>Exemplo de entrada: v4->v5 7, v6->v8 2
+            <br>mostrando seu caminho v4->v5 e depois o seu peso 7 e uma virgula , antes de por a proxima aresta desejada
+            <br>Caso não deseje peso somente v4->v5 e uma virgula ,
+        </p>
         <label for="edges_input">Arestas: </label>
             <input id="edges_input" type="text" name="edges_input"  >
         <br>
@@ -18,7 +24,35 @@
         <br>
         <label for="is_valorado">Grafo valorado</label>
             <input id="is_valorado" type="checkbox" name="is_valorado" >
-        <br>    
+        <br>
+        
+        <h2>Operações</h2>
+		<h4>Com 1 vértices : </h4>
+	<label for="operator_vertex">Vertice : </label>
+	<input id="operator_vertex" type="text" name="operator_vertex"  >
+	<select name="operation" id="operation">
+		<option value='grau'>Descobrir o grau daquele vértice</option>
+		<option value='pendentes'>'Descobrir se é pendente</option>
+		<option value='adjacentes'>'Descobrir lista de adjacentes</option>
+	</select>
+<br>
+<br>
+<br>
+    <h4>Com 2 vértices : </h4>
+	<label for="origin_vertex">Vertice 1: </label>
+	<input id="origin_vertex" type="text" name="origin_vertex"  >
+	    <br>
+	<label for="destiny_vertex">Vertice 2: </label>
+	<input id="destiny_vertex" type="text" name="destiny_vertex"  >
+		<br>
+
+	<select name="operation" id="operation">
+		<option value='Descobrir se os grafos são adjacentes'>Descobrir se os grafos são adjacentes</option>
+		<option value='Descobrir o menor caminho'>'Descobrir o menor caminho</option>
+	</select>
+	<br>
+       
+
         <button type="submit" class="save btn btn-default">Save</button>
 
     </form>      
