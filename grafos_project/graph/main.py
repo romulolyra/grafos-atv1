@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import math
 import json
 
+from graph_manipulation import valid_graph
+
 def count_nodes(graph):
     num_nodes = 0
     for num_nodes in range(len(graph)):
@@ -162,3 +164,24 @@ def calculate(file_name, is_directed, is_valorado, origin_node,destiny_node,sing
 		print("Os nodes sao vizinhos? ", vizinho)
 		print("Numero de Nodes neste grafo: ", num_nodes)
 		print("Numero de Arestas neste grafo: ", num_edges)
+
+def get_terminal_input():
+	vertices_list = []
+	edges_list = []
+	
+	is_valorado = bool(input("O vertice será valorado ? Se sim, digite True, caso contrário False: "))
+	is_direcionado = bool(input("\nO vertice será direcionado ? Se sim, digite True, caso contrário False: "))
+	
+	vertex = input("Digite o vértice : (para parar, digite exit)")
+	vertex = input("Digite o vértice : (para parar, digite exit)")
+
+	while(vertex != 'exit'):
+		vertices_list.append(vertex+',')
+
+	edge = input("Digite a aresta : (para parar, digite exit)")
+	while(edge != 'exit'):
+		edges_list.append(vertex)
+
+	valid_graph(vertices,edges,is_directed,is_valorado,name)
+
+get_terminal_input()

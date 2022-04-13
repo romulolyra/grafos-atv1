@@ -11,7 +11,7 @@ def valid_graph(vertices,edges,is_directed,is_valorado,name):
 	
 
 def direcionados_com_peso(vertices, edges, name):
-	vert = {'vertices': vertices.split(',')}
+	vert = {'vertices':list(map(str.strip, vertices.split(',')))}
 	arest = edges.split(',')
 
 	edge_list = []
@@ -20,8 +20,8 @@ def direcionados_com_peso(vertices, edges, name):
 		try:
 			origem, destino_peso = edge.split('->')
 			destino,peso = destino_peso.split()
-			aux_list.append(origem)
-			aux_list.append(destino)
+			aux_list.append(origem.strip())
+			aux_list.append(destino.strip())
 			aux_list.append(int(peso))
 
 			edge_list.append(aux_list)
