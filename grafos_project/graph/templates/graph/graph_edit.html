@@ -30,9 +30,9 @@
 		<h4>Com 1 vértices : </h4>
 	<label for="operator_vertex">Vertice : </label>
 	<input id="operator_vertex" type="text" name="operator_vertex"  >
-	<select name="operation" id="operation">
+	<select name="operation_one" id="operation_one">
 		<option value='grau'>Descobrir o grau daquele vértice</option>
-		<option value='pendentes'>'Descobrir se é pendente</option>
+		<option value='pendentes'>Descobrir se é pendente</option>
 		<option value='adjacentes'>'Descobrir lista de adjacentes</option>
 	</select>
 <br>
@@ -45,14 +45,11 @@
 	<label for="destiny_vertex">Vertice 2: </label>
 	<input id="destiny_vertex" type="text" name="destiny_vertex"  >
 		<br>
-
-	<select name="operation" id="operation">
-		<option value='Descobrir se os grafos são adjacentes'>Descobrir se os grafos são adjacentes</option>
-		<option value='Descobrir o menor caminho'>'Descobrir o menor caminho</option>
+	<select name="operation_two" id="operation_two">
+		<option id = "adjacentes", value='adjacentes'>Descobrir se os grafos são adjacentes</option>
+		<option id="caminho"value='caminho'>Descobrir o menor caminho</option>
 	</select>
 	<br>
-       
-
         <button type="submit" class="save btn btn-default">Save</button>
 
     </form>      

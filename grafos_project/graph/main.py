@@ -1,23 +1,25 @@
-import json
+import networkx as nx
+import matplotlib.pyplot as plt
 import math
+import json
 
-#Retorna um contador representando o numero de nodes no grafo.
 def count_nodes(graph):
-	num_nodes = 0
-	for num_nodes in range(len(graph)):
-		num_nodes += 1
-	return num_nodes
+    num_nodes = 0
+    for num_nodes in range(len(graph)):
+        num_nodes += 1
+    return num_nodes
 
-#Retorna um contador representando o numero de arestas no grafo.
 def count_edges(graph):
 	num_edges = 0
+
 	for num_edges in range(len(graph)):
 		num_edges += 1
+
 	return num_edges
 
 #Retorna um booleano significando se os nodes enviados sao adjacentes ou nao.
 def is_adj(node_a, node_b, graph):
-	for edge in graph['links']:
+	for edge in graph['edges']:
 		if edge[0] == node_a and edge[1] == node_b:
 			return True
 		elif edge[0] == node_b and edge[1] == node_a:
@@ -27,7 +29,7 @@ def is_adj(node_a, node_b, graph):
 #Retorna uma lista dos nodes adjacentes ao node escolhido, verificando se esta em um dos pontos de um 'link', de uma aresta.
 def list_adj_not_direct(node, graph):
 	adjs = []
-	for edge in graph['links']:
+	for edge in graph['edges']:
 		if edge[0] == node:
 			adjs.append(edge[1])
 		elif edge[1] == node:
@@ -38,7 +40,7 @@ def list_adj_not_direct(node, graph):
 # e outra lista para os nodes adjacentes que estao chegando no node escolhido.
 def list_adj_direct(node, graph):
 	adjs = {'in': [], 'out': []}
-	for edge in graph['links']:
+	for edge in graph['edges']:
 		if edge[0] == node:
 			adjs['out'].append(edge[1])
 		elif edge[1] == node:
@@ -48,7 +50,7 @@ def list_adj_direct(node, graph):
 #Retorna um contador representando o grau do node escolhido.
 def node_degree_not_direct(node, graph):
 	degree = 0
-	for edge in graph['links']:
+	for edge in graph['edges']:
 		if edge[0] == node or edge[1] == node:
 			degree += 1
 	return degree
@@ -59,7 +61,7 @@ def node_degree_not_direct(node, graph):
 #  - degree['out'] significa que a aresta esta saindo dele
 def node_degree_direct(node, graph):
 	degree = {'in': 0, 'out': 0}
-	for edge in graph['links']:
+	for edge in graph['edges']:
 		if edge[1] == node:
 			degree['in'] += 1
 		elif edge[0] == node:
@@ -89,30 +91,74 @@ def is_pending(node, graph):
 	return pending
 
 
-def calculate(file_name):
+def generate_undirected(arquivo):
+	graph = nx.Graph()
+	e = []
+	for edge in arquivo['edges']:
+		e.append(tuple(edge))
+	print(e)
+	graph.add_weighted_edges_from(e)
+	return graph
+
+
+def generate_directed(arquivo):
+	graph = nx.DiGraph()
+	e = []
+	for edge in arquivo['edges']:
+		e.append(tuple(edge))
+	print(e)
+	graph.add_weighted_edges_from(e)
+	return graph
+
+
+def best_way_between_two_nodes(graph, source, destiny):
+	print(f'O menor caminho entre {source} e {destiny} é {nx.dijkstra_path(graph, source, destiny)}')
+	print(f'Distância total: {nx.dijkstra_path_length(graph, source, destiny)}')
+
+
+def plota_grafico(graph):
+	pos = nx.spring_layout(graph)
+	pos = nx.circular_layout(graph)
+	nx.draw(graph, pos=pos, with_labels=True, font_weight='bold', node_color='pink', arrowsize=20, node_size=1500)
+	edge_weight = nx.get_edge_attributes(graph, 'weight')
+	nx.draw_networkx_edge_labels(graph, pos, edge_labels=edge_weight)
+	plt.show()
+
+def calculate(file_name, is_directed, is_valorado, origin_node,destiny_node,single_node):
 	with open(file_name) as file:
+
 		graph = json.load(file)
 
 		num_nodes = count_nodes(graph['vertices'])
-		
 		num_edges = count_edges(graph['edges'])
 
-		#vizinho = is_adj('ser1', 'ser2', graph)
+		vizinho = is_adj(origin_node, destiny_node, graph)
 
-		#lista_adj = list_adj('ser2', graph)
+		lista_adj_dir = list_adj_direct(origin_node, graph)
 
-		#print("A lista de adjacentes do node ser2 eh: ", lista_adj)
-		#print("Os nodes ser1 e ser3 sao vizinhos: ", vizinho)
-		return("\nNumero de Nodes neste grafo eh de: "+str(num_nodes)+"\nNumero de Arestas neste grafo eh de: "+str(num_edges))
-def two_edges(v1, v2, file_name):
-	with open(file_name) as file:
-		graph = json.load(file)
+		lista_adj_not_dir = list_adj_not_direct(origin_node, graph)
 
-		vizinho = is_adj(v1, v2, graph)
+		degree_dir = node_degree_direct(origin_node, graph)
 
-		#lista_adj = list_adj('ser2', graph)
+		degree_not_dir = node_degree_not_direct(origin_node, graph)
 
-		print("A lista de adjacentes do node ser2 eh: ", lista_adj)
-		print("Os nodes ser1 e ser3 sao vizinhos: ", vizinho)
-		return("\nNumero de Nodes neste grafo eh de: "+str(num_nodes)+"\nNumero de Arestas neste grafo eh de: "+str(num_edges))
+		pending = is_pending(origin_node, graph)
 
+
+		if is_directed == True:
+			graph_lib = generate_directed(graph)
+			print("Grau direcionado :", degree_dir)
+		else:
+			graph_lib = generate_undirected(graph)
+			print("Grau nao direcionado", degree_not_dir)
+
+		plota_grafico(graph_lib)
+		if is_valorado:
+			#saber o source e destiny que vem do usuario
+			best_way_between_two_nodes(graph_lib, origin_node, destiny_node)
+		print("O node eh pendente? ", pending)
+		print("A lista de adjacentes: ", lista_adj_dir)
+		print("A lista de adjacentes: ", lista_adj_not_dir)
+		print("Os nodes sao vizinhos? ", vizinho)
+		print("Numero de Nodes neste grafo: ", num_nodes)
+		print("Numero de Arestas neste grafo: ", num_edges)

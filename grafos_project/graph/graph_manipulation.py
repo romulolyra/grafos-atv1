@@ -10,17 +10,6 @@ def valid_graph(vertices,edges,is_directed,is_valorado,name):
 		
 	
 
-
-'''
-			vertices_input = graph_form.cleaned_data['vertices_input']
-			edges_input = graph_form.cleaned_data['edges_input']
-			is_directed = graph_form.cleaned_data['is_directed']
-			is_valorado = graph_form.cleaned_data['is_valorado']
-			name_input = graph_form.cleaned_data['name_input']
-
-'''
-
-
 def direcionados_com_peso(vertices, edges, name):
 	vert = {'vertices': vertices.split(',')}
 	arest = edges.split(',')
@@ -53,6 +42,8 @@ def direcionados_com_peso(vertices, edges, name):
 
 def direcionados_sem_peso(vertices, edges, name):
 	vert = {'vertices': vertices.split(',')}
+	for v in vert:
+		v.strip()
 	arest = edges.split(',')
 
 	edge_list = []

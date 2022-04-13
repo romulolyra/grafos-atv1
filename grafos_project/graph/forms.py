@@ -20,14 +20,13 @@ class GraphInputForm(forms.Form):
 	name_input = forms.CharField(label ='Nome ? :',max_length=300)
 	vertices_input = forms.CharField(label='Vertices :', max_length=800)
 	edges_input = forms.CharField(label='Arestas :', max_length=2800)
+	# Opções de 1 vertice
+	operator_vertex = forms.CharField(label='Vertice :', max_length=50, required = False)
+	operation_one = forms.CharField(label='Operação1 :', max_length=50, required = False)
 
 
-
-class Two_verticesForm(forms.Form):
-	CHOICES = (
-	(11, 'Descobrir se os grafos são adjacentes'),
-	(12, 'Descobrir o menor caminho'),)
-	operation = forms.ChoiceField(choices=CHOICES,label='Qual a operação desejada ? :')
-	origin_vertex = forms.CharField(label='Vertice 1 :', max_length=50)
-	destiny_vertex = forms.CharField(label='Vertice 2 :', max_length=50)
+	# two vertices operations
+	operation_two = forms.CharField(label='Operação2 :', max_length=50, required = False)
+	origin_vertex = forms.CharField(label='Vertice 1 :', max_length=50, required = False)
+	destiny_vertex = forms.CharField(label='Vertice 2 :', max_length=50, required = False)
 
