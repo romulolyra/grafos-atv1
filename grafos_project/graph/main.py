@@ -168,12 +168,12 @@ def calculate(file_name, is_directed, is_valorado, origin_node,destiny_node,sing
     t = Texttable()
     t.add_rows([
             ['Função', 'Resultado'], 
-            ['É pendente?', pending], 
+            [f'{origin_node} é pendente?', pending], 
             [f'Adjacência entre {origin_node} e {destiny_node}', vizinho],
             ['Número de nodes', num_nodes],
             ['Número de arestas', num_edges],
 	          [f'Menor caminho entre {origin_node} e {destiny_node}', shortest_path[0]],
-		        ['Custo do menor caminho entre {origin_node} e {destiny_node}', shortest_path[1]],
+		        [f'Custo do menor caminho entre {origin_node} e {destiny_node}', shortest_path[1]],
 		        [f'Lista de adjacentes de {origin_node}', lista_adj],
 		        [f'Grau direcionado de {origin_node}', grau_origin]])
 	
