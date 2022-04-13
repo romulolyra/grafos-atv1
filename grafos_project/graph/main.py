@@ -1,5 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+from texttable import Texttable
 import math
 import json
 from graph.graph_manipulation import valid_graph
@@ -92,32 +93,37 @@ def is_pending(node, graph):
 	return pending
 
 
-def generate_undirected(arquivo):
-	graph = nx.Graph()
+def generate_undirected(arquivo, is_valorado):
+	grafo = nx.Graph()
 	e = []
 	for edge in arquivo['edges']:
 		e.append(tuple(edge))
-	print(e)
-	graph.add_weighted_edges_from(e)
-	return graph
+	if is_valorado:
+		grafo.add_weighted_edges_from(e)
+	else:
+		grafo.add_edges_from(e)
+	return grafo
 
-
-def generate_directed(arquivo):
-	graph = nx.DiGraph()
+def generate_directed(arquivo, is_valorado):
+	grafo = nx.DiGraph()
 	e = []
 	for edge in arquivo['edges']:
 		e.append(tuple(edge))
-	print(e)
-	graph.add_weighted_edges_from(e)
-	return graph
+	if is_valorado:
+		grafo.add_weighted_edges_from(e)
+	else:
+		grafo.add_edges_from(e)
+	return grafo
+
 
 
 def best_way_between_two_nodes(graph, source, destiny):
-	print(f'O menor caminho entre {source} e {destiny} é {nx.dijkstra_path(graph, source, destiny)}')
-	print(f'Distância total: {nx.dijkstra_path_length(graph, source, destiny)}')
+	menor_caminho = nx.dijkstra_path(graph, source, destiny)
+	distancia = nx.dijkstra_path_length(graph, source, destiny)
+	return [menor_caminho, distancia]
 
 
-def plota_grafico(graph):
+def plota_grafo(graph):
 	pos = nx.spring_layout(graph)
 	pos = nx.circular_layout(graph)
 	nx.draw(graph, pos=pos, with_labels=True, font_weight='bold', node_color='pink', arrowsize=20, node_size=1500)
@@ -126,48 +132,55 @@ def plota_grafico(graph):
 	plt.show()
 
 def calculate(file_name, is_directed, is_valorado, origin_node,destiny_node,single_node):
+  
+  # Abre o arquivo json e transforma em um dicionário
 	with open(file_name) as file:
-
 		graph = json.load(file)
 
 		num_nodes = count_nodes(graph['vertices'])
 		num_edges = count_edges(graph['edges'])
-
 		vizinho = is_adj(origin_node, destiny_node, graph)
-
 		lista_adj_dir = list_adj_direct(origin_node, graph)
-
 		lista_adj_not_dir = list_adj_not_direct(origin_node, graph)
-
 		degree_dir = node_degree_direct(origin_node, graph)
-
 		degree_not_dir = node_degree_not_direct(origin_node, graph)
-
 		pending = is_pending(origin_node, graph)
+		if is_valorado:
+			shortest_path = best_way_between_two_nodes(graph_lib, origin_node, destiny_node)
+		if is_directed == True:
+			lista_adj = lista_adj_dir
+			grau_origin = degree_dir
+		else:
+			lista_adj = lista_adj_not_dir
+			grau_origin = degree_not_dir
+		
 
+    # Gera o grafo direcionado ou não direcionado
 		if is_directed == True:
 			graph_lib = generate_directed(graph)
 
 		else:
 			graph_lib = generate_undirected(graph)
-
-
 		
-		
-		plota_grafico(graph_lib)
+    # Plota o grafo em uma tela
+		plota_grafo(graph_lib)
+	
+    t = Texttable()
+    t.add_rows([['Função', 'Resultado'], 
+                ['É pendente?', pending], 
+                [f'Adjacência entre {origin_node} e {destiny_node}', vizinho],
+                ['Número de nodes', num_nodes],
+                ['Número de arestas', num_edges],
+	        [f'Menor caminho entre {origin_node} e {destiny_node}', shortest_path[0],
+		['Custo do menor caminho entre {origin_node} e {destiny_node}'], shortest_path[1],
+		[f'Lista de adjacentes de {origin_node}', lista_adj],
+		[f'Grau direcionado de {origin_node}'], grau_origin]])
+	
+    print(t.draw())
 
-		print("O node eh pendente? (caso não tenha escolhido esta função, o programa fara com que foi escolhido para a outra função no site)", pending)
-		print("Os nodes sao vizinhos? (caso não tenha escolhido esta função, o programa fara com que foi escolhido para a outra função no site)", vizinho)
-		print("Numero de Nodes neste grafo: ", num_nodes)
-		print("Numero de Arestas neste grafo: ", num_edges)
-		if is_directed == True:
-			print("A lista de adjacentes (caso não tenha escolhido esta função, o programa fara com que foi escolhido para a outra função no site): ", lista_adj_dir)
-			print("Grau direcionado:", degree_dir)
-		else:
-			print("A lista de adjacentes (caso não tenha escolhido esta função, o programa fara com que foi escolhido para a outra função no site): ", lista_adj_not_dir)
-			print("Grau nao direcionado: ", degree_not_dir)
-		if is_valorado:
-			best_way_between_two_nodes(graph_lib, origin_node, destiny_node)
+
+   
+		
 
 
 # def get_terminal_input():
