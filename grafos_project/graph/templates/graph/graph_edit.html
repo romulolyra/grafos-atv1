@@ -17,7 +17,7 @@
     <body>
         <div style="margin-top: 2em; margin-bottom: 6em; margin-left: 9em; margin-right:9em;">
         <h2>Faça seu Grafo</h2>
-        <p><strong>Caso queira adicionar um vertice por vez, adicionar pelo terminal através do 'main.py'</strong></p>
+        <!-- <p><strong>Caso queira adicionar um vertice por vez, adicionar pelo terminal através do 'main.py'</strong></p> -->
         <hr style="height:2px;border-width:0;color:gray;background-color:gray">
         <form method="POST" class="post-form",enctype="multipart/form-data">
                 
@@ -33,7 +33,8 @@
                 <p>Coloque a lista de todas as arestas desejadas
                     <br>Exemplo de entrada: v4->v5 7, v6->v8 2
                     <br>mostrando seu caminho v4->v5 e depois o seu peso 7 e uma virgula , antes de por a proxima aresta desejada
-                    <br>Caso não deseje peso somente v4->v5 e uma virgula ,
+                    <br>Caso não deseje <strong>peso</strong> somente v4->v5 e uma virgula ,
+                    <br>Caso deseje <strong>direção</strong> atente para a ordem que sera ligada como no exemplo!
                 </p>
                 <label for="edges_input" class="form-label">Arestas: </label>
                     <input id="edges_input" type="text" name="edges_input" class="form-control" >
