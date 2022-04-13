@@ -2,8 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import math
 import json
-
-from graph_manipulation import valid_graph
+from graph.graph_manipulation import valid_graph
 
 def count_nodes(graph):
     num_nodes = 0
@@ -146,42 +145,51 @@ def calculate(file_name, is_directed, is_valorado, origin_node,destiny_node,sing
 
 		pending = is_pending(origin_node, graph)
 
-
 		if is_directed == True:
 			graph_lib = generate_directed(graph)
-			print("Grau direcionado :", degree_dir)
+
 		else:
 			graph_lib = generate_undirected(graph)
-			print("Grau nao direcionado", degree_not_dir)
 
+
+		
+		
 		plota_grafico(graph_lib)
-		if is_valorado:
-			#saber o source e destiny que vem do usuario
-			best_way_between_two_nodes(graph_lib, origin_node, destiny_node)
-		print("O node eh pendente? ", pending)
-		print("A lista de adjacentes: ", lista_adj_dir)
-		print("A lista de adjacentes: ", lista_adj_not_dir)
-		print("Os nodes sao vizinhos? ", vizinho)
+
+		print("O node eh pendente? (caso não tenha escolhido esta função, o programa fara com que foi escolhido para a outra função no site)", pending)
+		print("Os nodes sao vizinhos? (caso não tenha escolhido esta função, o programa fara com que foi escolhido para a outra função no site)", vizinho)
 		print("Numero de Nodes neste grafo: ", num_nodes)
 		print("Numero de Arestas neste grafo: ", num_edges)
+		if is_directed == True:
+			print("A lista de adjacentes (caso não tenha escolhido esta função, o programa fara com que foi escolhido para a outra função no site): ", lista_adj_dir)
+			print("Grau direcionado:", degree_dir)
+		else:
+			print("A lista de adjacentes (caso não tenha escolhido esta função, o programa fara com que foi escolhido para a outra função no site): ", lista_adj_not_dir)
+			print("Grau nao direcionado: ", degree_not_dir)
+		if is_valorado:
+			best_way_between_two_nodes(graph_lib, origin_node, destiny_node)
 
-def get_terminal_input():
-	vertices_list = []
-	edges_list = []
+
+# def get_terminal_input():
+# 	vertices_list = []
+# 	edges_list = []
+# 	vertex = ''
+# 	edge = ''
 	
-	is_valorado = bool(input("O vertice será valorado ? Se sim, digite True, caso contrário False: "))
-	is_direcionado = bool(input("\nO vertice será direcionado ? Se sim, digite True, caso contrário False: "))
-	
-	vertex = input("Digite o vértice : (para parar, digite exit)")
-	vertex = input("Digite o vértice : (para parar, digite exit)")
+# 	is_valorado = bool(input("O vertice será valorado ? Se sim, digite True, caso contrário False: "))
+# 	is_direcionado = bool(input("\nO vertice será direcionado ? Se sim, digite True, caso contrário False: "))
 
-	while(vertex != 'exit'):
-		vertices_list.append(vertex+',')
+# 	while(vertex != 'exit'):
+# 		vertex = input("Digite o vértice : (para parar, digite exit)")
+# 		vertices_list.append(vertex+',')
 
-	edge = input("Digite a aresta : (para parar, digite exit)")
-	while(edge != 'exit'):
-		edges_list.append(vertex)
+# 	while(edge != 'exit'):
+# 		edge = input("Digite a aresta : (para parar, digite exit)")
+# 		edges_list.append(vertex)
 
-	valid_graph(vertices,edges,is_directed,is_valorado,name)
+# 	name = input("Digite o nome do grafo: ")
 
-get_terminal_input()
+# 	valid_graph(vertices_list,edges_list,is_direcionado,is_valorado, name)
+
+
+# get_terminal_input()
