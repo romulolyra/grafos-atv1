@@ -4,9 +4,11 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 import json
+
+from graph.graph_manipulation import valid_graph
+
 from .models import Vertex, Edge
 from .forms import *
-from .graph_manipulation import valid_graph
 from .main import calculate
 
 
